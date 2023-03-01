@@ -45,6 +45,7 @@ export default class Service {
       const lowerRight = prediction.annotations.rightEyeUpper0
       const upperRight = prediction.annotations.rightEyeLower0
       const rightEAR = this.#getEAR(upperRight, lowerRight)
+      
       // Left eye parameters
       const lowerLeft = prediction.annotations.leftEyeUpper0
       const upperLeft = prediction.annotations.leftEyeLower0
@@ -52,6 +53,19 @@ export default class Service {
 
       // True if the eye is closed
       const blinked = leftEAR <= EAR_THRESHOLD && rightEAR <= EAR_THRESHOLD
+      const blinkedLeftEAR = leftEAR <= EAR_THRESHOLD &&  rightEAR > EAR_THRESHOLD
+      const blinkedRightEAR = rightEAR <= EAR_THRESHOLD &&  leftEAR > EAR_THRESHOLD
+
+      if(blinkedLeftEAR){
+        console.log('Piscou com o esquerdo')
+        continue
+      }
+      
+      if(blinkedRightEAR){
+        console.log('Piscou com o direito')
+        continue
+      }
+      
       if (!blinked) continue
       if(!shouldRun()) continue
 
